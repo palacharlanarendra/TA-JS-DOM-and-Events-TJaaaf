@@ -33,3 +33,12 @@ img {
   max-width: 100%;
   height: auto;
 }
+div{
+  border:2px solid black;
+  width:4rem;
+  height:4rem;
+}
+.main{
+  display:flex;
+  flex-wrap:wrap;
+}
