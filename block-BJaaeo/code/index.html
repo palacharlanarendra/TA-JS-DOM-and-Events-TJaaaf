@@ -12,7 +12,41 @@
   </head>
   <body>
     <h1>🤯 Calculator 🤩</h1>
-
+    <div class="wrapper">
+      <input type="text" class="screen"/>
+   <table class="btns">
+    <tr class="operators">
+      <td value="+" onclick="dis('+')">+</td>
+      <td value="-" onclick="dis('-')">-</td>
+      <td value="*" onclick="dis('*')">*</td>
+      <td value="%" onclick="dis('%')">%</td>
+    </tr>
+    <tr class="numbers">
+      <td value="7" onclick="dis('7')" >7</td>
+      <td value="8" onclick="dis('8')">8</td>
+      <td value="9" onclick="dis('9')">9</td>
+      <td onclick="solve()" class="equal" rowspan="4" >=</td>
+    </tr>
+    <tr class="numbers">
+      <td value="4" onclick="dis('4')">4</td>
+      <td value="5" onclick="dis('5')">5</td>
+      <td value="6" onclick="dis('6')">6</td>
+    
+    </tr>
+    <tr class="numbers">
+      <td value="1" onclick="dis('1')">1</td>
+      <td value="2" onclick="dis('2')">2</td>
+      <td value="3" onclick="dis('3')">3</td>
+     
+    </tr>
+    <tr class="numbers">
+      <td value="." onclick="dis('.')">.</td>
+      <td value="0" onclick="dis('0')">0</td>
+      <td  onclick="clr()">C</td>
+     
+    </tr>
+   </table>
+    </div>
     <script src="./script.js"></script>
   </body>
 </html>
