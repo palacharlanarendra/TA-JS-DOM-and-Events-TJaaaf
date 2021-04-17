@@ -6,48 +6,43 @@ let combinedBtn = document.querySelector(".combined_buttons");
 let items_left = document.querySelector(".items_left");
 let clearBtn = document.querySelector(".clearBtn");
 
-let arrayTodos =[
-];
+let arrayTodos =
+localStorage.getItem("arrayTodos")?JSON.parse(localStorage.getItem("arrayTodos")):[];
 
 
 
 function handleKey(event){
-    if(event.keyCode === 13){
+    if(event.keyCode === 13 && event.target.value){
         arrayTodos.push({
             name:event.target.value,
             isDone:false
         })
+        event.target.value="";
         createUI();
+        localStorage.setItem("arrayTodos",JSON.stringify(arrayTodos));
     }
     
 }
 function handleClick(event){
     let id = event.target.dataset.id;
     arrayTodos.splice(id,1);
+    items_left.innerText = `${arrayTodos.length} items left`;
     createUI();
+    localStorage.setItem("arrayTodos",JSON.stringify(arrayTodos));
 }
 function handleChange(event){
     let id = event.target.dataset.input;
     arrayTodos[id].isDone = !arrayTodos[id].isDone;
 }
-function clearAllUI(){
-    arrayTodos=[];
-    items_left.innerText = `${arrayTodos.length} items left`;
-    createAllUI();
-}
+
 if(arrayTodos.length<=0){
     combinedBtn.classList.add("display_block");
 }
-function createUI(){
-   
-    input.value = ""
-    
+function createUI(data=arrayTodos){    
         let ul = document.querySelector(".display");
         ul.innerHTML="";
         
-      
-        
-    arrayTodos.forEach((element,index)=>{
+    data.forEach((element,index)=>{
         let input = document.createElement("input");
         input.type="checkbox";
         input.classList.add("checkbox_style");
@@ -65,110 +60,44 @@ function createUI(){
         
         items_left.innerText = `${arrayTodos.length} items left`;
 
-        completedBtn.addEventListener("click",createCompletedUI);
-        activeBtn.addEventListener("click",createActiveUI);
-        allBtn.addEventListener("click",createAllUI);
-        clearBtn.addEventListener("click",clearAllUI);
+       
         let li = document.createElement("li");
         li.append(input,label,span);
         ul.append(li);
     });
-    
-    
 }
 createUI();
 
-
-
-
-
-function createAllUI(){
-    
-    if(arrayTodos.length>0){
-        combinedBtn.classList.remove("display_none");
-    }
-    if(arrayTodos.length==0){
-        combinedBtn.classList.add("display_none");
-    }
-    let ul = document.querySelector(".display");
-        ul.innerHTML="";
-
-    arrayTodos.forEach((element,index)=>{
-        if(element.isDone === false ||element.isDone === true){
-            let input = document.createElement("input");
-        input.type="checkbox";
-        input.addEventListener("input",handleChange);
-        input.setAttribute("data-input",index);
-        input.checked = element.isDone;
-        let label = document.createElement("label");
-        label.innerText = element.name;
-
-        let span=document.createElement("span");
-        span.setAttribute("data-id",index);
-        span.innerText = "x";
-        span.addEventListener("click", handleClick); 
-
-        let li = document.createElement("li");
-        li.append(input,label,span);
-        ul.append(li);
-
-        }
-    });
-}
+activeBtn.addEventListener("click",createActiveUI);
 function createActiveUI(){
-    
-    let ul = document.querySelector(".display");
-        ul.innerHTML="";
-
-    arrayTodos.forEach((element,index)=>{
-        if(element.isDone === false){
-            let input = document.createElement("input");
-        input.type="checkbox";
-        input.addEventListener("input",handleChange);
-        input.setAttribute("data-input",index);
-        input.checked = element.isDone;
-        let label = document.createElement("label");
-        label.innerText = element.name;
-
-        let span=document.createElement("span");
-        span.setAttribute("data-id",index);
-        span.innerText = "x";
-        span.addEventListener("click", handleClick); 
-
-        let li = document.createElement("li");
-        li.append(input,label,span);
-        ul.append(li);
-
-        }
-    });
+    let activeTodos = arrayTodos.filter((todo)=> !todo.isDone);
+    createUI(activeTodos);
+    localStorage.setItem("arrayTodos",JSON.stringify(arrayTodos));
 }
+
+
+allBtn.addEventListener("click",createAllUI);
+function createAllUI(){
+  
+    createUI();
+    localStorage.setItem("arrayTodos",JSON.stringify(arrayTodos));
+}
+
+completedBtn.addEventListener("click",createCompletedUI);
 function createCompletedUI(){
- 
-    let ul = document.querySelector(".display");
-        ul.innerHTML="";
+    let activeTodos = arrayTodos.filter((todo)=> todo.isDone);
+    createUI(activeTodos);
+    localStorage.setItem("arrayTodos",JSON.stringify(arrayTodos));
+}        
+clearBtn.addEventListener("click",clearAllUI);
 
-    arrayTodos.forEach((element,index)=>{
-        if(element.isDone === true){
-            let input = document.createElement("input");
-        input.type="checkbox";
-        input.addEventListener("input",handleChange);
-        input.setAttribute("data-input",index);
-        input.checked = element.isDone;
-        let label = document.createElement("label");
-        label.innerText = element.name;
-
-        let span=document.createElement("span");
-        span.setAttribute("data-id",index);
-        span.innerText = "x";
-        span.addEventListener("click", handleClick); 
-
-        let li = document.createElement("li");
-        li.append(input,label,span);
-        ul.append(li);
-
-        }
-    });
+function clearAllUI(){
+    arrayTodos = arrayTodos.filter((todo)=> !todo.isDone);
+    createUI();
+    localStorage.setItem("arrayTodos",JSON.stringify(arrayTodos));
 }
+
+
 
 
 
