@@ -3,6 +3,8 @@ let completedBtn = document.querySelector(".completedBtn");
 let activeBtn = document.querySelector(".activeBtn");
 let allBtn = document.querySelector(".allBtn");
 let combinedBtn = document.querySelector(".combined_buttons");
+let items_left = document.querySelector(".items_left");
+let clearBtn = document.querySelector(".clearBtn");
 
 let arrayTodos =[
 ];
@@ -15,9 +17,9 @@ function handleKey(event){
             name:event.target.value,
             isDone:false
         })
-        
+        createUI();
     }
-    createUI();
+    
 }
 function handleClick(event){
     let id = event.target.dataset.id;
@@ -28,17 +30,27 @@ function handleChange(event){
     let id = event.target.dataset.input;
     arrayTodos[id].isDone = !arrayTodos[id].isDone;
 }
-
+function clearAllUI(){
+    arrayTodos=[];
+    items_left.innerText = `${arrayTodos.length} items left`;
+    createAllUI();
+}
+if(arrayTodos.length<=0){
+    combinedBtn.classList.add("display_block");
+}
 function createUI(){
-        
+   
+    input.value = ""
+    
         let ul = document.querySelector(".display");
         ul.innerHTML="";
         
-        
+      
         
     arrayTodos.forEach((element,index)=>{
         let input = document.createElement("input");
         input.type="checkbox";
+        input.classList.add("checkbox_style");
         input.addEventListener("input",handleChange);
         input.setAttribute("data-input",index);
         input.checked = element.isDone;
@@ -50,12 +62,13 @@ function createUI(){
         span.innerText = "x";
         span.addEventListener("click", handleClick); 
 
-        let items_left = document.querySelector(".items_left");
+        
         items_left.innerText = `${arrayTodos.length} items left`;
 
         completedBtn.addEventListener("click",createCompletedUI);
         activeBtn.addEventListener("click",createActiveUI);
         allBtn.addEventListener("click",createAllUI);
+        clearBtn.addEventListener("click",clearAllUI);
         let li = document.createElement("li");
         li.append(input,label,span);
         ul.append(li);
@@ -65,12 +78,18 @@ function createUI(){
 }
 createUI();
 
-if(arrayTodos.length<=0){
-    combinedBtn.classList.add(".display_none");
-}
+
+
 
 
 function createAllUI(){
+    
+    if(arrayTodos.length>0){
+        combinedBtn.classList.remove("display_none");
+    }
+    if(arrayTodos.length==0){
+        combinedBtn.classList.add("display_none");
+    }
     let ul = document.querySelector(".display");
         ul.innerHTML="";
 
@@ -97,6 +116,7 @@ function createAllUI(){
     });
 }
 function createActiveUI(){
+    
     let ul = document.querySelector(".display");
         ul.innerHTML="";
 
@@ -123,6 +143,7 @@ function createActiveUI(){
     });
 }
 function createCompletedUI(){
+ 
     let ul = document.querySelector(".display");
         ul.innerHTML="";
 
