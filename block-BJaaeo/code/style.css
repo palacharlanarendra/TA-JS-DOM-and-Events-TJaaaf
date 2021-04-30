@@ -1,0 +1,32 @@
+h1{
+    text-align: center;
+}
+.screen{
+    height:4rem;
+    border:1px solid grey;
+    width:100%;
+    border-radius:5px;
+}
+td{
+    padding:2rem;
+    border:1px solid green;
+    background-color: #CFCFCF;
+    border-radius:5px;
+}
+
+.operators td{
+    background-color: #722333;
+    color:white;
+}
+
+.equal{
+    background-color: #428180;
+}
+.clear{
+    background-color: #3D1B10;
+    color:#FAE4C5;
+}
+.wrapper{
+    width:17%;
+    margin:0 auto;
+}
